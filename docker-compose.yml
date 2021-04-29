@@ -1,0 +1,44 @@
+#version: '3.8'
+#
+#services:
+#  api-database:
+#    image: mongo:4.4.0
+#    container_name: "api-database"
+#    ports:
+#      - 27017:27017
+#    command: --smallfiles
+#  api:
+#    image: api-clearpay-image
+#    ports:
+#      - 8080:8080
+#    depends_on:
+#      - api-database
+
+
+version: "3"
+services:
+
+  java:
+    build:
+      context: ./
+    ports:
+      - "8090:8080"
+    container_name: java
+    links:
+      - mongodb
+    depends_on:
+      - mongodb
+    networks:
+      - shared-net
+
+  mongodb:
+    image: 'mongo:4.4.0'
+    ports:
+      - 27017:27017
+    container_name: mongodb
+    networks:
+      - shared-net
+
+networks:
+  shared-net:
+    driver: bridge

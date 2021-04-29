@@ -21,6 +21,15 @@ dependencies {
 	testImplementation 'de.flapdoodle.embed:de.flapdoodle.embed.mongo'
 	testImplementation 'org.springframework.security:spring-security-test'
 }
+jar {
+	manifest {
+		attributes "Main-Class": "com.clearpay.demo.ClearpayDashboardApplication"
+	}
+
+	from {
+		configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+	}
+}
 
 test {
 	useJUnitPlatform()
