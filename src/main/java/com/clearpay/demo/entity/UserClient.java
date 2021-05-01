@@ -5,7 +5,6 @@ import org.springframework.data.annotation.Id;
 public class UserClient {
     @Id
     public String id;
-
     public String firstName;
     public String lastName;
 

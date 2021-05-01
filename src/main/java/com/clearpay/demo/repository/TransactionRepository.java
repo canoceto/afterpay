@@ -1,11 +1,17 @@
 package com.clearpay.demo.repository;
 
-import com.clearpay.demo.repository.interfaces.TransactionRepositoryInterface;
+import com.clearpay.demo.entity.Transaction;
+import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
-//implements TransactionRepositoryInterface
+import java.util.List;
+import java.util.Optional;
 
 @Repository
-public class TransactionRepository {
+public interface TransactionRepository extends MongoRepository<Transaction, String> {
+
+    List<Transaction> findAllByUser(String userName);
+
+    Optional<Transaction> findById(String id);
 
 }
