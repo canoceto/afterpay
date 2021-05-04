@@ -1,7 +1,8 @@
 package com.clearpay.demo.security;
 
-//import com.google.firebase.auth.FirebaseAuthException;
-
+import com.clearpay.demo.models.User;
+import com.clearpay.demo.service.UserService;
+import com.google.firebase.auth.FirebaseAuthException;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -16,9 +17,9 @@ import java.io.IOException;
 @Component
 public class SecurityFilter extends OncePerRequestFilter {
 
-    IUserService userService;
+    UserService userService;
 
-    public SecurityFilter(IUserService userService) {
+    public SecurityFilter(UserService userService) {
         this.userService = userService;
     }
 
@@ -35,15 +36,10 @@ public class SecurityFilter extends OncePerRequestFilter {
 
     private boolean handleAuthorizationHeader(HttpServletRequest request, HttpServletResponse response) {
         String header = request.getHeader("Authorization");
-        String projectHeader = request.getHeader("Quipus-projectId");
         if (header != null && header.startsWith("Bearer")) {
             String tokenId = removeBearer(header).trim();
-            String projectName = projectHeader != null ? removeBearer(projectHeader).trim() : null;
             try {
                 User user = userService.getByTokenId(tokenId);
-//                if (user.getRole() == null) {
-//                    user = userService.update(user.copy(role = "basic"));
-//                }
                 request.setAttribute("user", user);
                 return true;
             } catch (FirebaseAuthException e) {
@@ -67,7 +63,6 @@ public class SecurityFilter extends OncePerRequestFilter {
     private String removeBearer(String header) {
         return header.substring(7);
     }
-
 
     private void onAuthorizedRequest(HttpServletRequest request, HttpServletResponse response, FilterChain chain) {
         try {
