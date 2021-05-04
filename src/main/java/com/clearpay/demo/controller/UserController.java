@@ -3,6 +3,7 @@ package com.clearpay.demo.controller;
 
 import com.clearpay.demo.entity.UserClient;
 import com.clearpay.demo.entity.Wallet;
+import com.clearpay.demo.models.UserData;
 import com.clearpay.demo.service.UserClientService;
 import com.clearpay.demo.service.interfaces.UserServiceInterface;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,7 @@ public class UserController {
     }
 
     @GetMapping(path = "/all")
-    public List<UserClient> getAllUser() {
+    public List<UserData> getAllUser() {
         return userClientService.getAll();
     }
 
@@ -42,6 +43,5 @@ public class UserController {
     public String addUser(@RequestBody UserClient userClient) {
         return userClientService.addUser(userClient);
     }
-
 
 }

@@ -28,4 +28,8 @@ public class Wallet {
                 "Wallet[id=%s, userId='%s', quantity='%s' , alias='%s']",
                 id, userId, quantity, alias);
     }
+
+    public int getQuantity() {
+        return quantity;
+    }
 }

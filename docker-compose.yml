@@ -39,6 +39,14 @@ services:
     networks:
       - shared-net
 
+  webapp:
+    build: ./src/webApp/clearpay
+    container_name: clearpay_webapp
+    ports:
+      - 4200:80
+    links:
+      - java
+
 networks:
   shared-net:
     driver: bridge

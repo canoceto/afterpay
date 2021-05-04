@@ -2,12 +2,13 @@ package com.clearpay.demo.service.interfaces;
 
 import com.clearpay.demo.entity.UserClient;
 import com.clearpay.demo.entity.Wallet;
+import com.clearpay.demo.models.UserData;
 
 import java.util.List;
 
 public interface UserServiceInterface {
 
-    List<UserClient> getAll();
+    List<UserData> getAll();
 
     UserClient getUser(String id);
 

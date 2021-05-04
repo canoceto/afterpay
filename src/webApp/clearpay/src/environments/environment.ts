@@ -3,7 +3,15 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  firebaseConfig : {
+    apiKey: "AIzaSyANYYarKCCiFDrFBrnyrdchW3d65dCtqIw",
+    authDomain: "clearpay-faa65.firebaseapp.com",
+    projectId: "clearpay-faa65",
+    storageBucket: "clearpay-faa65.appspot.com",
+    messagingSenderId: "323623679972",
+    appId: "1:323623679972:web:47796e959dbaff2398b9f1"
+  }
 };
 
 /*

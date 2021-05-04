@@ -7,4 +7,7 @@ import java.util.List;
 
 public interface WalletRepository extends MongoRepository<Wallet, String> {
     List<Wallet> findAllByUserId(String userId);
+
+    int countAllByUserId(String userId);
+
 }

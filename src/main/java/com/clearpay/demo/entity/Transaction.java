@@ -7,28 +7,21 @@ import java.util.Date;
 public class Transaction {
     @Id
     public String id;
-
-    public String user;
+    public String walletId;
+    public String idWalletReceptor;
     public String action;
-    public String to;
     public double amount;
     public Date date;
 
-    public Transaction(String user, String action, double amount, Date date) {
-        this.user = user;
-        this.action = action;
-        this.amount = amount;
-        this.date = date;
-    }
-
-    public Transaction(String user, String action, double amount, String to, Date date) {
-        this.user = user;
-        this.action = action;
-        this.amount = amount;
-        this.to = to;
-        this.date = date;
-    }
-
     public Transaction() {
+    }
+
+    public Transaction(String userWalletId, String action, int amount, String idWalletReceptor, Date date) {
+        this.walletId = userWalletId;
+        this.idWalletReceptor = idWalletReceptor;
+
+        this.action = action;
+        this.amount = amount;
+        this.date = date;
     }
 }

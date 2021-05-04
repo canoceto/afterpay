@@ -15,6 +15,4 @@ public class TransactionLoggerService {
     public void registerTransaction(Transaction transactionEntity) {
         transactionRepository.save(transactionEntity);
     }
-
-
 }

@@ -2,10 +2,12 @@ package com.clearpay.demo.service;
 
 import com.clearpay.demo.entity.UserClient;
 import com.clearpay.demo.entity.Wallet;
+import com.clearpay.demo.models.UserData;
 import com.clearpay.demo.repository.UserClientRepository;
 import com.clearpay.demo.service.interfaces.UserServiceInterface;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,15 +18,21 @@ public class UserClientService implements UserServiceInterface {
     private final WalletService walletService;
 
 
-    public UserClientService(UserClientRepository userClientRepository, TransactionLoggerService transactionLoggerService1, WalletService walletService) {
+    public UserClientService(UserClientRepository userClientRepository,
+                             TransactionLoggerService transactionLoggerService1,
+                             WalletService walletService) {
         this.userClientRepository = userClientRepository;
         this.transactionLoggerService = transactionLoggerService1;
         this.walletService = walletService;
     }
 
     @Override
-    public List<UserClient> getAll() {
-        return userClientRepository.findAll();
+    public List<UserData> getAll() {
+        return userClientRepository
+                .findAll()
+                .stream()
+                .map(this::buildUserData)
+                .collect(Collectors.toList());
     }
 
     @Override
