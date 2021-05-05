@@ -1,0 +1,80 @@
+<div class="container">
+  <mat-horizontal-stepper linear #stepper>
+    <mat-step [stepControl]="firstFormGroup" [editable]="editable">
+      <form [formGroup]="firstFormGroup">
+        <ng-template matStepLabel>Select user to make the transfer</ng-template>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Choose one</mat-label>
+          <mat-select [formControl]="selected" [errorStateMatcher]="matcher">
+            <mat-option>Clear</mat-option>
+            <mat-option *ngFor="let user of users" [value]="user">{{user.firstName}}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="selected.hasError('required')">You must make a selection</mat-error>
+          <mat-error *ngIf="selected.hasError('pattern') && !selected.hasError('required')">
+            Your selection is invalid
+          </mat-error>
+        </mat-form-field>
+
+        <div>
+          <button mat-button matStepperNext (click)="getWallets.emit(this.selected.value.id)">Next</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step [stepControl]="secondFormGroup" [editable]="editable">
+      <form [formGroup]="secondFormGroup">
+        <ng-template matStepLabel>Select a wallet</ng-template>
+        <mat-form-field appearance="fill">
+          <mat-label>Choose one</mat-label>
+          <mat-select [formControl]="walletSelected" [errorStateMatcher]="matcher">
+            <mat-option>Clear</mat-option>
+            <mat-option *ngFor="let wallet of wallets"
+                        [value]="wallet">{{'Hash:' + wallet.id + ' Alias:' + wallet.alias }}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="walletSelected.hasError('required')">You must make a selection</mat-error>
+          <mat-error *ngIf="walletSelected.hasError('pattern') && !walletSelected.hasError('required')">
+            Your selection is invalid
+          </mat-error>
+        </mat-form-field>
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step [stepControl]="amountFormGroup" [editable]="editable">
+      <form [formGroup]="amountFormGroup">
+        <ng-template matStepLabel>How much you want to transfer</ng-template>
+        <mat-form-field appearance="fill">
+          <mat-label>How much</mat-label>
+          <input type="number" matInput [formControl]="amountInput" [value]="" required>
+          <mat-error *ngIf="amountFormGroup.hasError('required')">You must make a selection</mat-error>
+          <mat-error *ngIf="amountFormGroup.hasError('pattern') && !amountFormGroup.hasError('required')">
+            Your selection is invalid
+          </mat-error>
+        </mat-form-field>
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button  (click)="checkBalance(stepper)">Next</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step [editable]="editable">
+      <ng-template matStepLabel>Operation</ng-template>
+      <p>Now we will carry out the requested operation, in case of error or insufficient balance you can try again.</p>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext (click)="stepper.reset()">Next</button>
+      </div>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Done</ng-template>
+      <p>You are now done.</p>
+      <div>
+        <button mat-button (click)="stepper.reset()">New</button>
+        <button mat-button routerLink="/home">Done</button>
+      </div>
+    </mat-step>
+  </mat-horizontal-stepper>
+
+</div>
