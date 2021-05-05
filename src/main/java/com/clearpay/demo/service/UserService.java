@@ -8,14 +8,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService {
     //    Comment entire file
-    UserRepository userRepository;
-
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-
-    }
-
-    public User getByTokenId(String tokenId) throws FirebaseAuthException {
-        return this.userRepository.getByTokenId(tokenId);
-    }
+//    UserRepository userRepository;
+//
+//    public UserService(UserRepository userRepository) {
+//        this.userRepository = userRepository;
+//
+//    }
+//
+//    public User getByTokenId(String tokenId) throws FirebaseAuthException {
+//        return this.userRepository.getByTokenId(tokenId);
+//    }
 }

@@ -19,7 +19,7 @@ class DataConfig {
 
     InputStream googleCredentialsAdmin = DataConfig.class.getResourceAsStream("/clearpay-faa65-firebase-adminsdk-tgq9j-cc3d855c56.json");
 
-    @Bean
+//    @Bean
     public FirebaseApp firebaseAppAdmin() {
         FirebaseOptions options = null;
         try {
@@ -33,12 +33,12 @@ class DataConfig {
         return FirebaseApp.initializeApp(options);
     }
 
-    @Bean
+//    @Bean
     public FirebaseAuth firebaseAuth(FirebaseApp firebaseAppAdmin) {
         return FirebaseAuth.getInstance(firebaseAppAdmin);
     }
 
-    @Bean
+//    @Bean
     public Firestore firebaseDatabase(FirebaseApp firebaseAppAdmin) {
         return FirestoreClient.getFirestore(firebaseAppAdmin);
     }

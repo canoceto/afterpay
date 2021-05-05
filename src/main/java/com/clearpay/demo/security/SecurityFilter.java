@@ -17,11 +17,11 @@ import java.io.IOException;
 @Component
 public class SecurityFilter extends OncePerRequestFilter {
 
-    UserService userService;
-
-    public SecurityFilter(UserService userService) {
-        this.userService = userService;
-    }
+//    UserService userService;
+//
+//    public SecurityFilter(UserService userService) {
+//        this.userService = userService;
+//    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -43,15 +43,15 @@ public class SecurityFilter extends OncePerRequestFilter {
 //                I comment the next lines because firebase have incompatibilities with docker (alphine image)
 //                If you want test it uncomment it and run it locally.
 //                ####################################
-                User user = userService.getByTokenId(tokenId);
-                request.setAttribute("user", user);
+//                User user = userService.getByTokenId(tokenId);
+//                request.setAttribute("user", user);
                 return true;
-            } catch (FirebaseAuthException e) {
-                try {
-                    response.sendError(HttpStatus.UNAUTHORIZED.value(), "Bad authorization token");
-                } catch (IOException ioException) {
-                    ioException.printStackTrace();
-                }
+//            } catch (FirebaseAuthException e) {
+//                try {
+//                    response.sendError(HttpStatus.UNAUTHORIZED.value(), "Bad authorization token");
+//                } catch (IOException ioException) {
+//                    ioException.printStackTrace();
+//                }
             } catch (Exception e) {
                 try {
                     response.sendError(HttpStatus.UNAUTHORIZED.value(), "Could't verify authorization token");
