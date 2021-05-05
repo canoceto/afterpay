@@ -7,9 +7,9 @@ import com.clearpay.demo.repository.UserClientRepository;
 import com.clearpay.demo.service.interfaces.UserServiceInterface;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserClientService implements UserServiceInterface {
@@ -33,6 +33,14 @@ public class UserClientService implements UserServiceInterface {
                 .stream()
                 .map(this::buildUserData)
                 .collect(Collectors.toList());
+    }
+
+    private UserData buildUserData(UserClient userClient) {
+        return new UserData(userClient.id,
+                userClient.firstName,
+                userClient.lastName,
+                walletService.countAllByUserId(userClient.id),
+                walletService.getBalanceByUserId(userClient.id));
     }
 
     @Override

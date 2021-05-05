@@ -1,28 +1,29 @@
 import {Injectable} from '@angular/core';
-import {auth, User} from 'firebase/app';
+import {auth} from 'firebase/app';
 import {AngularFireAuth} from '@angular/fire/auth';
+import {User} from 'firebase';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {Router} from '@angular/router';
 import {Subject} from 'rxjs';
+import {Product} from '../../model/product';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
-
-  user: User | undefined;
+  user: User;
   useEventChange: Subject<User> = new Subject<User>();
 
   constructor(public fireAuth: AngularFireAuth, private firebase: AngularFirestore, private router: Router) {
-    this.fireAuth.user.subscribe((user) => {
+    this.fireAuth.authState.subscribe((user) => {
       if (user) {
         this.user = user;
         this.useEventChange.next(this.user);
         localStorage.setItem('user', JSON.stringify(this.user));
       } else {
-        // this.user = null;
-        // this.useEventChange.next(null);
-        localStorage.removeItem('user');
+        this.user = null;
+        this.useEventChange.next(this.user);
+        localStorage.setItem('user', null);
       }
     });
   }
@@ -35,21 +36,31 @@ export class AuthService {
   }
 
   async register(email: string, password: string) {
-    await this.fireAuth.createUserWithEmailAndPassword(email, password).then((credentials) => {
+    await this.fireAuth.createUserWithEmailAndPassword(
+      email,
+      password
+    ).then((crentials) => {
         this.firebase.collection('credit').add({
           credit: 100,
-          userId: credentials.user.uid
+          userId: crentials.user.uid
         });
-        // Defaut values, because   PRODUCTO
-        // const productTemp: {
-        //   id: "",
-        //   name: "email",
-        //   price: 20,
-        //   ventaActiva: false,
-        //   owner: crentials.user.uid
-        // };
+        // Defaut values, because
+        const productTemp: Product = {
+          name: email,
+          price: 20,
+          ventaActiva: false,
+          owner: crentials.user.uid
+        };
+        this.firebase.collection('products').add(productTemp).then((resul) => {
+          productTemp.id = resul.id;
+          this.updateProduct(productTemp);
+        });
       }
     );
+  }
+
+  updateProduct(product: Product) {
+    this.firebase.doc('products/' + product.id).update(product);
   }
 
   loginWithGoogle(): Promise<any> {
@@ -57,15 +68,14 @@ export class AuthService {
   }
 
   isLoggedIn(): boolean {
-    const user = JSON.parse(<string>localStorage.getItem('user'));
-    debugger
+    const user = JSON.parse(localStorage.getItem('user'));
     return user !== null;
   }
 
   async logout() {
     await this.fireAuth.signOut();
-    localStorage.clear();
-    // this.useEventChange.next(null);
-    await this.router.navigate(['home']);
+    localStorage.removeItem('user');
+    this.useEventChange.next(null);
+    this.router.navigate(['home']);
   }
 }
