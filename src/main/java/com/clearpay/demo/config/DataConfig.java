@@ -15,6 +15,8 @@ import java.io.InputStream;
 @Configuration
 class DataConfig {
 
+    //Comment all @beans
+
     InputStream googleCredentialsAdmin = DataConfig.class.getResourceAsStream("/clearpay-faa65-firebase-adminsdk-tgq9j-cc3d855c56.json");
 
     @Bean

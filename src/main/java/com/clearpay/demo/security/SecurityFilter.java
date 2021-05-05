@@ -39,6 +39,10 @@ public class SecurityFilter extends OncePerRequestFilter {
         if (header != null && header.startsWith("Bearer")) {
             String tokenId = removeBearer(header).trim();
             try {
+//                ####################################
+//                I comment the next lines because firebase have incompatibilities with docker (alphine image)
+//                If you want test it uncomment it and run it locally.
+//                ####################################
                 User user = userService.getByTokenId(tokenId);
                 request.setAttribute("user", user);
                 return true;

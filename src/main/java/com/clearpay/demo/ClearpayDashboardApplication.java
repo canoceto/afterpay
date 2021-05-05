@@ -1,6 +1,7 @@
 package com.clearpay.demo;
 
 import com.clearpay.demo.entity.Transaction;
+import com.clearpay.demo.entity.UserClient;
 import com.clearpay.demo.entity.Wallet;
 import com.clearpay.demo.models.UserData;
 import com.clearpay.demo.service.TransactionLoggerService;
@@ -19,13 +20,11 @@ public class ClearpayDashboardApplication implements CommandLineRunner {
     private final UserClientService userClientService;
     private final WalletService walletService;
     private final TransactionsService transactionsService;
-    private final TransactionLoggerService transactionLoggerService;
 
     public ClearpayDashboardApplication(UserClientService userClientService, WalletService walletService, TransactionsService transactionsService, TransactionLoggerService transactionLoggerService) {
         this.userClientService = userClientService;
         this.walletService = walletService;
         this.transactionsService = transactionsService;
-        this.transactionLoggerService = transactionLoggerService;
     }
 
     public static void main(String[] args) {
@@ -35,34 +34,13 @@ public class ClearpayDashboardApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-
-        // save for test
-        // repository.save(new UserClient("Alice", "Smith"));
-//        String userId = userClientService.addUser(new UserClient("Carlos", "Anoceto"));
-//        transactionsService.addTransaction(new Transaction("userId", "Top-up", 45, "IdUsuarioReceptor", new Date(), "id Cuenta de Ahorro"));
-//
-
-        // fetch all Users
-        System.out.println("Users found with findAll():");
-        System.out.println("-------------------------------");
-        for (UserData customer : userClientService.getAll()) {
-            System.out.println(customer);
-        }
-        System.out.println();
-
-        // fetch all Waller
-        System.out.println("Waller found with findAll():");
-        System.out.println("-------------------------------");
-        for (Wallet wallet : userClientService.getUserWalletById("608c8433a666b665cc7bb9b8")) {
-            System.out.println(wallet);
-        }
-
-        // fetch all transaction
-        System.out.println("transaction found with findAll():");
-        System.out.println("-------------------------------");
-        for (UserData customer : userClientService.getAll()) {
-            System.out.println(customer);
-        }
+        // Data saved for time reason, no CRUD implemented
+        String user1Id = userClientService.addUser(new UserClient("Alice", "Smith"));
+        walletService.addWallet(new Wallet(user1Id, new Date(), 250, "investment"));
+        walletService.addWallet(new Wallet(user1Id, new Date(), 100, "saving"));
+        String user2Id = userClientService.addUser(new UserClient("Carlos", "Anoceto"));
+        walletService.addWallet(new Wallet(user2Id, new Date(), 850, "investment"));
+        walletService.addWallet(new Wallet(user2Id, new Date(), 700, "saving"));
+        walletService.addWallet(new Wallet(user2Id, new Date(), 2000, "saving to school"));
     }
-
 }

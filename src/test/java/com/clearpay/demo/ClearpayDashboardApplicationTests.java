@@ -25,7 +25,7 @@ class ClearpayDashboardApplicationTests {
     void testTransactions() {
 //        Transaction transaction = transactionsService.newTransactions();
 //        String dow = transactionsService.newTransactions();
-//        assertEquals("SATURDAY", dow);
+//        assertEquals(value1, value2 );
 
     }
 

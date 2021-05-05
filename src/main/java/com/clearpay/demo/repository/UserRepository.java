@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class UserRepository {
+    //    Comment entire file
     FirebaseAuth auth;
     Firestore databases;
     Firestore adminDatabase;
